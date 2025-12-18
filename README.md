@@ -290,3 +290,16 @@ El dashboard puede ofrecer formularios guiados y generar el markdown.
 ---
 
 Este archivo sirve como **documentación base del backend** y referencia para desarrollo.
+
+## Docker (API + Postgres)
+
+```bash
+docker compose up --build
+```
+
+Variables de entorno esperadas en `.env`:
+- `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
+- `POSTGRES_HOST` (en compose debe ser `db`)
+- `DATABASE_URL` (ej: `postgresql+psycopg://user:pass@db:5432/db`)
+
+La API queda disponible en `http://localhost:8000`.
