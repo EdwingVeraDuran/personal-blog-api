@@ -11,3 +11,7 @@ dependencies = [
     "sqlalchemy>=2.0.45",
     "uvicorn>=0.38.0",
 ]
+
+[tool.pyright]
+include = ["src"]
+extraPaths = ["src"]
