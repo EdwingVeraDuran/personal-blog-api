@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.core.deps import require_admin
 from app.core.database import get_db
 from app.schemas.project import ProjectAdminOut, ProjectCreate, ProjectUpdate
 from app.services import projects as project_service
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(require_admin)])
 
 
 @router.post("/projects", response_model=ProjectAdminOut, status_code=status.HTTP_201_CREATED)
