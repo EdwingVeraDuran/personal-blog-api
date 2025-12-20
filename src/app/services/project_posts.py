@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -56,8 +58,14 @@ def create_post(db: Session, payload: ProjectPostCreate) -> ProjectPost:
 
 def update_post(db: Session, post: ProjectPost, payload: ProjectPostUpdate) -> ProjectPost:
     data = payload.model_dump(exclude_unset=True)
+    new_status = data.get("status")
+
     for field, value in data.items():
         setattr(post, field, value)
+
+    if new_status == "published" and post.published_at is None:
+        post.published_at = datetime.now(timezone.utc)
+
     db.add(post)
     db.commit()
     db.refresh(post)
