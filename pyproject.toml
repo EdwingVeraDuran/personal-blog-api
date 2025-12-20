@@ -10,6 +10,9 @@ dependencies = [
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
     "alembic>=1.13.0",
+    "argon2-cffi>=23.1.0",
+    "passlib[bcrypt]>=1.7.4",
+    "python-jose[cryptography]>=3.3.0",
     "sqlalchemy>=2.0.45",
     "uvicorn>=0.38.0",
 ]
