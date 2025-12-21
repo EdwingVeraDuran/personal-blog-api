@@ -11,22 +11,23 @@ ENV PATH="/root/.local/bin/:$PATH"
 
 WORKDIR /app
 
-COPY ./pyproject.toml .
-COPY ./uv.lock .
+COPY . .
 
 RUN uv sync --locked
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-ENTRYPOINT [ "/entrypoint.sh" ]
 
 ## -------------------------------- Production Stage ------------------------------- ##
 FROM python:3.12-slim-bookworm AS production
 
 WORKDIR /app
 
-COPY /src src
-COPY --from=builder /app/.venv/ .venv
+COPY --from=builder /app/src /app/src
+COPY --from=builder /app/migrations /app/migrations
+COPY --from=builder /app/alembic.ini /app/alembic.ini
+COPY --from=builder /app/.venv/ /app/.venv/
+COPY --from=builder /entrypoint.sh /entrypoint.sh
 
 ENV PATH="/app/.venv/bin:$PATH"
 
@@ -34,4 +35,5 @@ EXPOSE 8000
 
 ENV PYTHONPATH=/app/src
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -2,6 +2,6 @@
 set -e
 
 # Apply database migrations before starting the API.
-uv run alembic upgrade head
+python -m alembic upgrade head
 
 exec "$@"
