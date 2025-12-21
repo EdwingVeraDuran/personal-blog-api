@@ -13,6 +13,7 @@ SRC_PATH = os.path.join(PROJECT_ROOT, "src")
 if SRC_PATH not in sys.path:
     sys.path.insert(0, SRC_PATH)
 
+from app.core.database import db_url
 from app.models.base import Base  # noqa: E402
 from app.models.note import Note  # noqa: E402,F401
 from app.models.project import Project  # noqa: E402,F401
@@ -29,7 +30,7 @@ target_metadata = Base.metadata
 
 
 def get_database_url() -> str | None:
-    return os.getenv("DATABASE_URL")
+    return db_url()
 
 
 def run_migrations_offline() -> None:
